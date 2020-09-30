@@ -20,6 +20,16 @@ export async function initStorage() {
   if (!await Storage.getItem("applicantsCategory")) await Storage.setItem("applicantsCategory", "applicants")
 }
 
+export async function changeSetting(msg: Message, command: string) {
+
+  if (!msg.member?.hasPermission("ADMINISTRATOR")) return await msg.channel.send("You must have Administrator permissions to run this command.")
+  
+  const match = new RegExp(`(!${command})\\s(.+)`, "g").exec(msg.content)
+  if (!match) return await msg.channel.send(`Invalid !${command} command.`).catch(console.error)
+  await Storage.updateItem(`${command}`, match[2])
+  await msg.channel.send(`${command} has been set to: \`${match[2]}\``).catch(console.error)
+}
+
 export async function isMod(member: GuildMember) {
   const roles = member.roles.cache
   return roles.has(roleCache.getOrThrow(await Storage.getItem("officerRole")).id)

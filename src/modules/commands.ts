@@ -1,7 +1,7 @@
 import { Guild, Message } from "discord.js"
 import { roleCache, channelCache, emojiCache } from "../app-bot"
 import { getApplicant, saveApplicant, removeApplicant } from "./Applicant"
-import { isTextChannel } from "./util"
+import { isTextChannel, changeSetting } from "./util"
 import { initText } from "./text"
 import Storage from "node-persist"
 
@@ -30,11 +30,7 @@ export const officerRole: Command = {
   reqMod: false,
 
   run: async (guild, msg) => {
-    if (!msg.member?.hasPermission("ADMINISTRATOR")) return await msg.channel.send("You must have Administrator permissions to run this command.")
-    const match = /(!officerRole)\s(.+)/g.exec(msg.content)
-    if (!match) return await msg.channel.send("Invalid !officerRole command.").catch(console.error)
-    await Storage.updateItem("officerRole", match[2])
-    await msg.channel.send(`officerRole has been set to: \`${match[2]}\``).catch(console.error)
+    changeSetting(msg, "officerRole")
   }
 }
 
@@ -42,11 +38,7 @@ export const applicantRole: Command = {
   reqMod: false,
 
   run: async (guild, msg) => {
-    if (!msg.member?.hasPermission("ADMINISTRATOR")) return await msg.channel.send("You must have Administrator permissions to run this command.")
-    const match = /(!applicantRole)\s(.+)/g.exec(msg.content)
-    if (!match) return await msg.channel.send("Invalid !applicantRole command.").catch(console.error)
-    await Storage.updateItem("applicantRole", match[2])
-    await msg.channel.send(`applicantRole has been set to: \`${match[2]}\``).catch(console.error)
+    changeSetting(msg, "applicantRole")
   }
 }
 
@@ -54,11 +46,7 @@ export const appsChannel: Command = {
   reqMod: false,
 
   run: async (guild, msg) => {
-    if (!msg.member?.hasPermission("ADMINISTRATOR")) return await msg.channel.send("You must have Administrator permissions to run this command.")
-    const match = /(!appsChannel)\s(.+)/g.exec(msg.content)
-    if (!match) return await msg.channel.send("Invalid !appsChannel command.").catch(console.error)
-    await Storage.updateItem("appsChannel", match[2])
-    await msg.channel.send(`appsChannel has been set to: \`${match[2]}\``).catch(console.error)
+    changeSetting(msg, "appsChannel")
   }
 }
 
@@ -66,11 +54,7 @@ export const applicantsCategory: Command = {
   reqMod: false,
 
   run: async (guild, msg) => {
-    if (!msg.member?.hasPermission("ADMINISTRATOR")) return await msg.channel.send("You must have Administrator permissions to run this command.")
-    const match = /(!applicantsCategory)\s(.+)/g.exec(msg.content)
-    if (!match) return await msg.channel.send("Invalid !applicantsCategory command.").catch(console.error)
-    await Storage.updateItem("applicantsCategory", match[2])
-    await msg.channel.send(`applicantsCategory has been set to: \`${match[2]}\``).catch(console.error)
+    changeSetting(msg, "applicantsChannel")
   }
 }
 
